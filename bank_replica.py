@@ -116,8 +116,6 @@ try:
 
             myresult = myCursor.fetchone()
             print("Balance Amount is ", myresult[0])
-        else:
-            raise Exception("entered option is invalid")
     else:
         raise Exception("Enter 1 or 2")
 except Exception as e:
