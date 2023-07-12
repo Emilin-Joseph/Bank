@@ -93,29 +93,42 @@ try:
 
         user1 = Login(user_id, password)
         user1.login()
-        print("Successfully logged in" if user1.login() == 1 else "login was Unsuccessfull")
-        value = input("Please Enter 1 for DEPOSITING or 2 for WITHDRAWAL 3 for balance_checking  :")
-        if value == '1':
-            amount = int(input("Enter the depositing amount :"))
-            if amount > 0:
-                user1 = Deposit(user_id, password, amount)
-                user1.deposit()
-            else:
-                raise Exception("Depositing amount should be greater than zero")
-        elif value == '2':
-            amount = int(input("Enter the withdrawal amount :"))
-            if amount > 0:
-                user1 = Withdraw(user_id, password, amount)
-                user1.withdraw()
-            else:
-                raise Exception("Withdraw amount should be greater than zero")
-        elif value == '3':
-            sql = "SELECT balance FROM bank_user WHERE id = {}".format(user_id)
 
-            myCursor.execute(sql)
+        if user1.login() == 1:
+            print("Successfully logged in")
+        else:
+            raise Exception("Unsuccessfull login")
 
-            myresult = myCursor.fetchone()
-            print("Balance Amount is ", myresult[0])
+
+        flag = True
+        while flag:
+            value = input("Please Enter 1 for DEPOSITING or 2 for WITHDRAWAL or 3 for balance_checking or 4 logout  :")
+            if value == '1':
+                amount = int(input("Enter the depositing amount :"))
+                if amount > 0:
+                    user1 = Deposit(user_id, password, amount)
+                    user1.deposit()
+                else:
+                    raise Exception("Depositing amount should be greater than zero")
+            elif value == '2':
+                amount = int(input("Enter the withdrawal amount :"))
+                if amount > 0:
+                    user1 = Withdraw(user_id, password, amount)
+                    user1.withdraw()
+                else:
+                    raise Exception("Withdraw amount should be greater than zero")
+            elif value == '3':
+                sql = "SELECT balance FROM bank_user WHERE id = {}".format(user_id)
+
+                myCursor.execute(sql)
+
+                myresult = myCursor.fetchone()
+                print("Balance Amount is ", myresult[0])
+            elif value == '4':
+                flag = False
+
+            else:
+                raise Exception("entered option is invalid")
     else:
         raise Exception("Enter 1 or 2")
 except Exception as e:
