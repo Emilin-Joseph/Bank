@@ -14,7 +14,6 @@ desc bank_user;
 create table acct_stmt(
 ref_id int primary key auto_increment,
 user_id int,
-type_of_transaction varchar(10),
 credit_amt float,
 debit_amt float,
 current_balance float,
@@ -60,25 +59,19 @@ BEGIN
  end if;
 END $$
 DELIMITER ;
-drop trigger before_withdrawal;
- call withdrawal(3,1000);
+
 
 create procedure check_valid_user(in userId int,in userPassword varchar(10) ,out checkFlag int)
 select count(id) into checkFlag from bank_user where id= userId and user_password=userPassword;
 
-call insert_user('mathew','jose',9738302023,'fdfg','mathew#');
-call check_valid_user(1,'emilin#',@checkFlag);
-select @checkFlag;
-call depositing(1,2000);
-call withdrawal(1,2000);
 
 
 select * from bank_user;
 select * from acct_stmt;
 
-
+drop trigger before_withdrawal;
 drop table bank_user;
-
+drop table acct_stmt;
 drop procedure insert_user;
 drop procedure check_valid_user;
 drop procedure depositing;
@@ -87,5 +80,5 @@ truncate table bank_user;
 truncate table acct_stmt;
 SET foreign_key_checks = 0;
 
-select pow(2,3);
+
 
