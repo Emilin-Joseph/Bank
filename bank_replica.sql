@@ -4,7 +4,7 @@ create table bank_user(
 id int primary key auto_increment,
 first_name varchar(10),
 last_name varchar(10),
-mobile_no bigint,
+mobile_no bigint unique,
 account_no varchar(10) unique,
 user_password varchar(10),
 balance float default 0);
@@ -52,6 +52,17 @@ delimiter ;
 DELIMITER $$
 CREATE TRIGGER before_withdrawal
 before update ON bank_user
+FOR EACH ROW
+BEGIN
+ if new.balance<0 then signal sqlstate '45000'
+ set message_text= "can't withdraw the money bcoz balance amount is not enough ";
+ end if;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER before_withdrawal1
+before insert ON acct_stmt
 FOR EACH ROW
 BEGIN
  if new.balance<0 then signal sqlstate '45000'
