@@ -12,6 +12,22 @@ mydb = mysql.connector.connect(
 myCursor = mydb.cursor()
 
 
+def validate(f_name, l_name, mob_no, password):
+
+    if re.match(r"^[a-zA-Z]*$", f_name) is None:
+        print(f_name, "Only letters allowed for first name")
+
+    if re.match(r"^[a-zA-Z]*$", l_name) is None:
+        print("Only letters allowed for last name")
+
+    if re.match(r"^\d{10}$", mob_no) is None:
+        print("Please enter your correct mobile number(10 digit)")
+    if re.match(r"^\S{8,10}$", password) is None:
+        print("Password length should be between 8 and 10. No spaces are allowed ")
+    else:
+        return 1
+
+
 class UserRegister:
     def __init__(self, f_name, l_name, mob_no, acct_no, password):
         self.f_name = f_name
@@ -68,7 +84,7 @@ try:
 
     if value == '1':
 
-        f_name = input("first_name : ")
+        '''f_name = input("first_name : ")
         if re.match(r"^[a-zA-Z]*$", f_name) is None:
             raise Exception("Only letters allowed")
         l_name = input("last_name : ")
@@ -82,7 +98,16 @@ try:
         acct_no = input("account_no : ")
         password = pwinput.pwinput("Whats your password? :")
         if re.match(r"^\S{8,10}$", password) is None:
-            raise Exception("Password length should be between 8 and 10. No spaces are allowed ")
+            raise Exception("Password length should be between 8 and 10. No spaces are allowed ")'''
+        flag2 = 1
+        while flag2:
+            f_name = input("first_name : ")
+            l_name = input("last_name : ")
+            mob_no = input("mobile_no : ")
+            acct_no = input("account_no : ")
+            password = pwinput.pwinput("Whats your password? :")
+            if validate(f_name, l_name, mob_no, password) == 1:
+                flag2 = 0
         user1 = UserRegister(f_name, l_name, mob_no, acct_no, password)
         user1.register()
 
@@ -98,7 +123,6 @@ try:
             print("Successfully logged in")
         else:
             raise Exception("Unsuccessfull login")
-
 
         flag = True
         while flag:
